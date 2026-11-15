@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Mohamed Youssouf">
+    <title>Physique 3ème - Équilibre</title>
+    <style>
+        :root {
+            --bg-color: #1e293b; --text-color: #f8fafc; --primary-color: #38bdf8;
+            --secondary-color: #94a3b8; --accent-color: #fbbf24; --card-bg: rgba(51, 65, 85, 0.85);
+            --success-color: #4ade80; --error-color: #f87171;
+        }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
+        #physics-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; opacity: 0.3; pointer-events: none; }
+        .container { padding: 15px; max-width: 600px; margin: 0 auto; width: 100%; flex: 1; }
+
+        /* Login */
+        #login-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; text-align: center; padding: 20px; }
+        input[type="password"] { padding: 15px; border-radius: 12px; border: 2px solid var(--primary-color); background: rgba(0,0,0,0.3); color: white; font-size: 20px; text-align: center; letter-spacing: 5px; width: 100%; max-width: 250px; margin-bottom: 15px; }
+        button { background: var(--primary-color); color: #0f172a; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; }
+        button:hover { transform: translateY(-2px); opacity: 0.9; }
+        .error-msg { color: var(--error-color); margin-top: 15px; font-weight: bold; }
+
+        /* Interface */
+        #app-content { display: none; padding-bottom: 50px; }
+        .header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid var(--secondary-color); padding-bottom: 10px; }
+        .header h1 { color: var(--primary-color); font-size: 22px; margin: 0; }
+        .card { background: var(--card-bg); border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); }
+        .card h2 { color: var(--primary-color); font-size: 18px; margin-top: 0; }
+        .card p { line-height: 1.7; font-size: 15px; }
+        .keyword { color: var(--accent-color); cursor: pointer; text-decoration: underline dotted; font-weight: bold; }
+        .definition-box { display: none; background: rgba(0,0,0,0.4); padding: 10px; border-left: 3px solid var(--accent-color); border-radius: 4px; margin-top: 10px; font-size: 14px; font-style: italic; }
+
+        /* Notations Vectorielles */
+        .vec { position: relative; display: inline-block; font-weight: bold; font-family: serif; font-style: italic; font-size: 1.1em; }
+        .vec::after { content: "→"; position: absolute; top: -0.6em; left: 50%; transform: translateX(-50%); font-size: 0.8em; font-style: normal; }
+
+        /* Images */
+        .schema-container { background: #f8fafc; border-radius: 12px; padding: 10px; margin: 15px 0; text-align: center; border: 1px solid #cbd5e1; }
+        .schema-img { width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 8px; }
+
+        /* Tableau Noir */
+        .blackboard { background: #2d3748; border: 8px solid #4a5568; border-radius: 10px; padding: 15px; color: #f8fafc; font-family: 'Courier New', Courier, monospace; margin: 15px 0; position: relative; }
+        .blackboard h3 { margin-top: 0; color: #fbbf24; border-bottom: 1px solid #4a5568; padding-bottom: 5px; }
+        .cursive { font-family: 'Brush Script MT', cursive, sans-serif; font-size: 1.2em; color: #a7f3d0; margin: 5px 0; }
+        .math-line { margin: 8px 0; font-size: 15px; display: flex; align-items: center; gap: 5px; flex-wrap: wrap;}
+        .fraction { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; }
+        .num { border-bottom: 2px solid #f8fafc; padding: 0 5px; }
+        .den { padding: 0 5px; }
+        .strike { text-decoration: line-through; color: #f87171; }
+        
+        /* Exercices & Boutons */
+        .btn-method { background: var(--success-color); color: #0f172a; width: 100%; margin-bottom: 10px; }
+        .method-input { width: 100%; padding: 10px; margin: 5px 0; border-radius: 5px; border: 1px solid var(--secondary-color); background: rgba(0,0,0,0.2); color: white; font-size: 14px; }
+        .btn-validate { background: var(--primary-color); color: #0f172a; margin-top: 10px; width: 100%; }
+        .feedback-exercise { margin-top: 15px; font-weight: bold; text-align: center; display: none; }
+
+        /* Accordéons & QCM */
+        .accordion-btn { width: 100%; text-align: left; background: rgba(255,255,255,0.05); padding: 15px; margin-bottom: 5px; border-radius: 10px; border: none; color: var(--text-color); font-size: 15px; font-weight: bold; display: flex; justify-content: space-between; cursor: pointer; }
+        .panel { display: none; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 0 0 10px 10px; margin-bottom: 10px; font-size: 14px; }
+        .qcm-option { display: block; width: 100%; text-align: left; padding: 12px; margin: 8px 0; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: var(--text-color); cursor: pointer; font-size: 14px; }
+        .qcm-option.correct { background: rgba(74, 222, 128, 0.2); border-color: var(--success-color); }
+        .qcm-option.wrong { background: rgba(248, 113, 113, 0.2); border-color: var(--error-color); }
+        .feedback { margin-top: 10px; font-weight: bold; display: none; font-size: 14px; }
+
+        /* Flashcards */
+        .flashcard-container { perspective: 1000px; margin: 15px 0; height: 120px; cursor: pointer; }
+        .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.6s; transform-style: preserve-3d; }
+        .flashcard-container.flipped .flashcard { transform: rotateY(180deg); }
+        .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; display: flex; justify-content: center; align-items: center; padding: 15px; border-radius: 12px; text-align: center; font-weight: bold; }
+        .flashcard-front { background: rgba(56, 189, 248, 0.1); border: 2px solid var(--primary-color); color: var(--primary-color); }
+        .flashcard-back { background: var(--card-bg); border: 2px solid var(--accent-color); color: var(--text-color); transform: rotateY(180deg); font-weight: normal; font-size: 14px; }
+        .footer { text-align: center; margin-top: 20px; font-size: 11px; color: var(--secondary-color); }
+    </style>
+</head>
+<body>
+    <canvas id="physics-bg"></canvas>
+
+    <div id="login-screen">
+        <h1 style="color: var(--primary-color);">Physique 3ème</h1>
+        <input type="password" id="accessCode" placeholder="Code" maxlength="7" autocomplete="off">
+        <button onclick="checkAccess()">Déverrouiller</button>
+        <div id="login-error" class="error-msg"></div>
+    </div>
+
+    <div id="app-content" class="container">
+        <div class="header">
+            <h1>Équilibre d'un solide</h1>
+            <p>M. Mohamed Youssouf</p>
+        </div>
+
+        <!-- NOTION 1 : FORCES -->
+        <div class="card">
+            <h2>1. Les Forces</h2>
+            <p>Lorsque tu pousses un livre, tu exerces une <span class="keyword" onclick="toggleDef('def1')">action mécanique</span> sur lui. Cette action est modélisée par une force (un vecteur).</p>
+            <div id="def1" class="definition-box">Une action mécanique est tout ce qui peut modifier le mouvement ou la forme d'un objet (pousser, tirer, soulever...).</div>
+            
+            <p>Une force est représentée par un vecteur qui a <strong>4 caractéristiques</strong> :</p>
+            
+            <div class="schema-container">
+                <img src="img/caracteristiques.jpg" alt="Les 4 caractéristiques" class="schema-img">
+            </div>
+
+            <div class="accordion-btn" onclick="toggleAccordion(this, 'acc2')"><span>Forces de contact vs à distance</span> <span class="icon">+</span></div>
+            <div class="panel" id="acc2">
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <div class="schema-container">
+                        <img src="img/pilon.jpg" alt="Force de contact (Pilon)" class="schema-img">
+                    </div>
+                    <div class="schema-container">
+                        <img src="img/aimant.jpg" alt="Force à distance (Aimant)" class="schema-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EVAL 1 -->
+        <div class="card" style="border-left: 4px solid var(--accent-color);">
+            <h2>Test rapide : Les Forces</h2>
+            <div class="quiz-box">
+                <p><strong>Une force est représentée par :</strong></p>
+                <button class="qcm-option" onclick="checkAnswer(this, false)">Un point</button>
+                <button class="qcm-option" onclick="checkAnswer(this, true)">Un vecteur (une flèche)</button>
+                <button class="qcm-option" onclick="checkAnswer(this, false)">Un cercle</button>
+                <div class="feedback"></div>
+            </div>
+            <div style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; font-size: 13px;">
+                <strong>Résumé :</strong> Une force modélise une action. Elle a 4 caractéristiques (Point, Direction, Sens, Norme).
+            </div>
+        </div>
+
+        <!-- NOTION 2 : EQUILIBRE -->
+        <div class="card">
+            <h2>2. L'Équilibre</h2>
+            <p>Un solide soumis à <strong>deux forces</strong> est en équilibre si ces forces ont la <strong>même direction</strong>, la <strong>même norme</strong> et des <strong>sens contraires</strong>.</p>
+            
+            <div class="schema-container">
+                <img src="img/equilibre.jpg" alt="Équilibre F1 et F2" class="schema-img">
+            </div>
+
+            <p><strong>Les 3 écritures de la condition d'équilibre :</strong></p>
+            <ul>
+                <li><span class="vec">F</span><sub>1</sub> + <span class="vec">F</span><sub>2</sub> = <span class="vec">0</span> : <em>La somme des forces est nulle.</em></li>
+                <li><span class="vec">F</span><sub>1</sub> = -<span class="vec">F</span><sub>2</sub> : <em>Les forces ont des sens opposés.</em></li>
+                <li>F<sub>1</sub> = F<sub>2</sub> : <em>Les forces ont la même valeur (norme).</em></li>
+            </ul>
+        </div>
+
+        <!-- EVAL 2 -->
+        <div class="card" style="border-left: 4px solid var(--accent-color);">
+            <h2>Test rapide : L'Équilibre</h2>
+            <div class="quiz-box">
+                <p><strong>Que signifie l'écriture <span class="vec">F</span><sub>1</sub> = -<span class="vec">F</span><sub>2</sub> ?</strong></p>
+                <button class="qcm-option" onclick="checkAnswer(this, false)">Les forces ont la même valeur.</button>
+                <button class="qcm-option" onclick="checkAnswer(this, true)">Les forces ont des sens opposés.</button>
+                <button class="qcm-option" onclick="checkAnswer(this, false)">Les forces n'existent pas.</button>
+                <div class="feedback"></div>
+            </div>
+            <div style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; font-size: 13px;">
+                <strong>Résumé :</strong> À l'équilibre, <span class="vec">F</span><sub>1</sub> + <span class="vec">F</span><sub>2</sub> = <span class="vec">0</span>. Les forces s'annulent.
+            </div>
+        </div>
+      <!-- EXERCICE D'APPLICATION : CONSTRUCTION -->
+<div class="card" style="border-left: 4px solid #f472b6;">
+    <h2>Exercice : Construction d'une force</h2>
+    <p>On souhaite représenter une force de <strong>12 N</strong> avec l'échelle <strong>1 cm pour 2 N</strong>.</p>
+    
+    <button class="btn-method" id="toggleMethodBtn" onclick="toggleMethod()">Cliquer ici pour masquer la méthode</button>
+    
+    <div id="methodBox" class="panel" style="display: block; background: rgba(0,0,0,0.3); border: 1px solid var(--secondary-color); margin-bottom: 15px;">
+        <p><strong>Méthode :</strong></p>
+        <ol>
+            <li>On prend une échelle.</li>
+            <li>On établit la règle de 3.</li>
+            <li>On détermine la valeur (le calcul).</li>
+            <li>On réalise la représentation.</li>
+        </ol>
+    </div>
+
+    <p><strong>Exerçons-nous !</strong> Saisis les 4 étapes de la méthode sans regarder :</p>
+    <input type="text" id="step1" class="method-input" placeholder="Étape 1">
+    <input type="text" id="step2" class="method-input" placeholder="Étape 2">
+    <input type="text" id="step3" class="method-input" placeholder="Étape 3">
+    <input type="text" id="step4" class="method-input" placeholder="Étape 4">
+    <button class="btn-validate" onclick="checkMethod()">Valider mes réponses</button>
+    <div id="method-feedback" class="feedback-exercise"></div>
+
+    <hr style="border-color: var(--secondary-color); margin: 20px 0;">
+
+    <h3 style="color: var(--accent-color);">Correction détaillée (Tableau Noir)</h3>
+    
+    <div class="blackboard">
+        <p class="cursive">A. Échelle :</p>
+        <p class="math-line">1 cm &rarr; 2 N</p>
+        
+        <p class="cursive">B. Règle de 3 :</p>
+        <p class="math-line">1 cm &rarr; 2 N<br>L cm &rarr; 12 N</p>
+        
+        <p class="cursive">C. Calcul :</p>
+        <div class="math-line">
+            L = 
+            <span class="fraction">
+                <span class="num">12 <span class="strike">N</span> &times; 1 cm</span>
+                <span class="den">2 <span class="strike">N</span></span>
+            </span>
+            = 6 cm
+        </div>
+    </div>
+
+    <p class="cursive" style="color: var(--text-color);">D. Construction (avec ton image) :</p>
+    <div class="schema-container">
+        <img src="img/force12N.jpg" alt="Correction construction force 12N" class="schema-img">
+    </div>
+</div>
+
+<!-- NOTION 3 : RESSORT -->
+<div class="card">
+    <h2>3. Le Ressort</h2>
+    <p>La tension du ressort est <span class="keyword" onclick="toggleDef('def3')">proportionnelle</span> à son allongement.</p>
+    <div id="def3" class="definition-box">Proportionnelle signifie que si l'allongement double, la force double aussi.</div>
+    
+    <div class="schema-container">
+        <img src="img/ressort.jpg" alt="Allongement d'un ressort" class="schema-img">
+    </div>
+
+    <p><strong>La loi de Hooke : T = K × Δl</strong></p>
+    <p><strong>Les 3 formules de Δl :</strong></p>
+    <ul>
+        <li><strong>Δl = l - l₀</strong> : <em>Formule générale.</em></li>
+        <li><strong>Δl = T / K</strong> : <em>Si on connait la force et la raideur.</em></li>
+        <li><strong>l = l₀ + Δl</strong> : <em>Pour la longueur finale.</em></li>
+    </ul>
+</div>
+
+<!-- EVAL 3 -->
+<div class="card" style="border-left: 4px solid var(--accent-color);">
+    <h2>Test rapide : Le Ressort</h2>
+    <div class="quiz-box">
+        <p><strong>Si on connait T et K, comment trouve-t-on Δl ?</strong></p>
+        <button class="qcm-option" onclick="checkAnswer(this, false)">Δl = K / T</button>
+        <button class="qcm-option" onclick="checkAnswer(this, true)">Δl = T / K</button>
+        <button class="qcm-option" onclick="checkAnswer(this, false)">Δl = T × K</button>
+        <div class="feedback"></div>
+    </div>
+    <div style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; font-size: 13px;">
+        <strong>Résumé :</strong> L'allongement Δl se calcule par l - l₀. La force du ressort est T = K × Δl.
+    </div>
+</div>
+
+<!-- ACTIVITÉ : PARCOURS GUIDÉ (Photo + QCM) -->
+<div class="card" style="border-left: 4px solid #f472b6;">
+    <h2>Exercice Guidé : Représentation de 2 forces</h2>
+    <p>Un oscillateur soulève une charge de <strong>12 N</strong>.<br>Échelle proposée : 1 cm &rarr; 2 N.</p>
+    
+    <div class="quiz-box" id="quiz-force-1">
+        <p><strong>1) Quelles sont les forces appliquées à la charge ?</strong></p>
+        <button class="qcm-option" onclick="checkAnswerStep(this, false, 'step2-container')">Le poids et la réaction du plan.</button>
+        <button class="qcm-option" onclick="checkAnswerStep(this, true, 'step2-container')">Le poids <span class="vec">P</span> et la tension du fil <span class="vec">T</span>.</button>
+        <button class="qcm-option" onclick="checkAnswerStep(this, false, 'step2-container')">La force de frottement et la tension.</button>
+        <div class="feedback"></div>
+    </div>
+
+    <!-- Étape 2 cachée au début -->
+    <div id="step2-container" style="display: none; margin-top: 20px;">
+        <div class="quiz-box" id="quiz-force-2">
+            <p><strong>2) Quelle est la longueur du vecteur pour représenter 12 N ?</strong></p>
+            <button class="qcm-option" onclick="checkAnswerStep(this, false, 'step3-container')">2 cm</button>
+            <button class="qcm-option" onclick="checkAnswerStep(this, true, 'step3-container')">6 cm</button>
+            <button class="qcm-option" onclick="checkAnswerStep(this, false, 'step3-container')">12 cm</button>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Étape 3 (Pratique avec photo) cachée au début -->
+    <div id="step3-container" style="display: none; margin-top: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
+        <p><strong>3) À toi de jouer !</strong></p>
+        <p>Prends ton stylo et une feuille. Représente les deux forces (P et T) en respectant l'échelle. <br>Une fois terminé, clique sur le bouton pour comparer avec la correction.</p>
+        <button class="btn-method" onclick="showCorrection()">J'ai terminé mon schéma, voir la correction</button>
+        
+        <div id="correction-finale" style="display: none; margin-top: 15px;">
+            <p style="color: var(--success-color); font-weight: bold;">🎉 Bravo pour ton effort ! Voici la correction officielle :</p>
+            <div class="grid-paper" style="height: 200px;">
+                <svg viewBox="0 0 200 150" width="100%" height="100%">
+                    <rect x="80" y="10" width="40" height="10" fill="#64748b"/>
+                    <line x1="100" y1="20" x2="100" y2="70" stroke="#333" stroke-width="2"/>
+                    <rect x="85" y="70" width="30" height="30" fill="#cbd5e1" stroke="#333" stroke-width="2"/>
+                    <line x1="100" y1="85" x2="100" y2="145" stroke="#ef4444" stroke-width="3" marker-end="url(#arrRedEx)"/>
+                    <text x="110" y="140" fill="#ef4444" font-weight="bold">P</text>
+                    <line x1="100" y1="85" x2="100" y2="25" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrBlueEx)"/>
+                    <text x="110" y="35" fill="#3b82f6" font-weight="bold">T</text>
+                    <defs>
+                        <marker id="arrRedEx" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#ef4444"/></marker>
+                        <marker id="arrBlueEx" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3b82f6"/></marker>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+    </div>
+</div>
+              <!-- FLASHCARDS -->
+        <div class="card" style="border-left: 4px solid #c084fc;">
+            <h2>Révision Finale (Flashcards)</h2>
+            <div class="flashcard-container" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="flashcard-front">Les 4 caractéristiques d'une force ?</div>
+                    <div class="flashcard-back">1. Point d'application<br>2. Direction<br>3. Sens<br>4. Norme</div>
+                </div>
+            </div>
+            <div class="flashcard-container" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="flashcard-front">Écriture vectorielle de l'équilibre ?</div>
+                    <div class="flashcard-back"><span class="vec">F</span><sub>1</sub> + <span class="vec">F</span><sub>2</sub> = <span class="vec">0</span></div>
+                </div>
+            </div>
+            <div class="flashcard-container" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="flashcard-front">Formule de l'allongement ?</div>
+                    <div class="flashcard-back">Δl = l - l₀</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Conçu par M. Mohamed Youssouf &copy; 2024</p>
+        </div>
+    </div>
+
+    <script>
+        const deviceFingerprint = btoa(navigator.userAgent + screen.width + screen.height).slice(0, 15);
+        const MASTER_WA = "https://wa.me/22220828099?text=Bonjour%20M.%20Mohamed,%20j'ai%20besoin%20d'aide%20pour%20deverrouiller%20l'application.";
+
+        function checkAccess() {
+            const codeInput = document.getElementById('accessCode').value;
+            const errorDiv = document.getElementById('login-error');
+            let storedCode = localStorage.getItem('userCode');
+            let isChewghiLocked = localStorage.getItem('chewghiLock');
+
+            if (codeInput === '0000000') { grantAccess(); return; }
+            if (codeInput === '1111111') {
+                if (localStorage.getItem('deviceRegistered')) {
+                    errorDiv.innerHTML = "Déjà configuré. <a href='" + MASTER_WA + "' target='_blank' style='color:var(--primary-color)'>Contacter WhatsApp</a>"; return;
+                }
+                let newCode = prompt("Entrez votre nouveau code à 4 chiffres :");
+                if (newCode && newCode.length === 4 && !isNaN(newCode)) {
+                    localStorage.setItem('userCode', newCode);
+                    localStorage.setItem('deviceRegistered', deviceFingerprint);
+                    alert("Code défini !");
+                } else { alert("Code invalide."); }
+                return;
+            }
+            if (codeInput === 'chewghi') {
+                if (isChewghiLocked && isChewghiLocked !== deviceFingerprint) {
+                    errorDiv.innerHTML = "Accès refusé. <a href='" + MASTER_WA + "' target='_blank' style='color:var(--primary-color)'>Contacter WhatsApp</a>"; return;
+                }
+                localStorage.setItem('chewghiLock', deviceFingerprint); grantAccess(); return;
+            }
+            if (storedCode && codeInput === storedCode) {
+                if (localStorage.getItem('deviceRegistered') === deviceFingerprint) { grantAccess(); }
+                else { errorDiv.innerHTML = "Appareil non reconnu. <a href='" + MASTER_WA + "'>Contacter WhatsApp</a>"; }
+                return;
+            }
+            errorDiv.innerText = "Code incorrect.";
+        }
+
+        function grantAccess() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('app-content').style.display = 'block';
+            initPhysicsBackground();
+        }
+
+        function toggleAccordion(btn, id) {
+            const panel = document.getElementById(id);
+            const icon = btn.querySelector('.icon');
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+                icon.innerText = "+";
+            } else {
+                panel.style.display = "block";
+                icon.innerText = "-";
+            }
+        }
+
+        function toggleDef(id) {
+            const def = document.getElementById(id);
+            def.style.display = (def.style.display === "block") ? "none" : "block";
+        }
+
+        function toggleMethod() {
+            const box = document.getElementById('methodBox');
+            const btn = document.getElementById('toggleMethodBtn');
+            if (box.style.display === 'none') {
+                box.style.display = 'block';
+                btn.innerText = 'Cliquer ici pour masquer la méthode';
+            } else {
+                box.style.display = 'none';
+                btn.innerText = 'Cliquer ici pour afficher la méthode';
+            }
+        }
+
+        function checkAnswer(btn, isCorrect) {
+            let parent = btn.closest('.quiz-box');
+            let buttons = parent.querySelectorAll('.qcm-option');
+            buttons.forEach(b => b.style.pointerEvents = 'none');
+            let feedback = parent.querySelector('.feedback');
+            feedback.style.display = 'block';
+
+            if (isCorrect) {
+                btn.classList.add('correct');
+                feedback.style.color = 'var(--success-color)';
+                feedback.innerText = "Exact ! Félicitations. 🎉";
+            } else {
+                btn.classList.add('wrong');
+                feedback.style.color = 'var(--error-color)';
+                feedback.innerText = "Oups ! Relis la notion. 💡";
+                buttons.forEach(b => { if (b.getAttribute('onclick').includes('true')) b.classList.add('correct'); });
+            }
+        }
+
+        // QCM par étapes pour l'exercice guidé
+        function checkAnswerStep(btn, isCorrect, nextStepId) {
+            let parent = btn.closest('.quiz-box');
+            let buttons = parent.querySelectorAll('.qcm-option');
+            buttons.forEach(b => b.style.pointerEvents = 'none');
+            let feedback = parent.querySelector('.feedback');
+            feedback.style.display = 'block';
+
+            if (isCorrect) {
+                btn.classList.add('correct');
+                feedback.style.color = 'var(--success-color)';
+                feedback.innerText = "Exact ! Tu peux passer à la suite. 🎉";
+                setTimeout(() => {
+                    document.getElementById(nextStepId).style.display = 'block';
+                }, 800);
+            } else {
+                btn.classList.add('wrong');
+                feedback.style.color = 'var(--error-color)';
+                feedback.innerText = "Oups ! Ce n'est pas ça. 💡";
+                buttons.forEach(b => { if (b.getAttribute('onclick').includes('true')) b.classList.add('correct'); });
+                setTimeout(() => {
+                    document.getElementById(nextStepId).style.display = 'block';
+                }, 1500);
+            }
+        }
+
+        function showCorrection() {
+            document.getElementById('correction-finale').style.display = 'block';
+            event.target.style.display = 'none';
+        }
+
+        function checkMethod() {
+            const s1 = document.getElementById('step1').value.toLowerCase();
+            const s2 = document.getElementById('step2').value.toLowerCase();
+            const s3 = document.getElementById('step3').value.toLowerCase();
+            const s4 = document.getElementById('step4').value.toLowerCase();
+            const feedback = document.getElementById('method-feedback');
+            
+            const kw1 = s1.includes('échelle') || s1.includes('echelle');
+            const kw2 = s2.includes('règle') || s2.includes('regle') || s2.includes('3');
+            const kw3 = s3.includes('calcul') || s3.includes('détermine') || s3.includes('determine') || s3.includes('valeur');
+            const kw4 = s4.includes('représent') || s4.includes('represent') || s4.includes('réalise') || s4.includes('realise') || s4.includes('dessin');
+
+            feedback.style.display = 'block';
+
+            if (kw1 && kw2 && kw3 && kw4) {
+                feedback.style.color = 'var(--success-color)';
+                feedback.innerHTML = "🎉 <strong>Bravo !</strong> Tu as parfaitement retenu la méthode de construction !";
+            } else {
+                feedback.style.color = 'var(--error-color)';
+                feedback.innerHTML = "💡 <strong>Oups !</strong> Certaines étapes sont incomplètes.<br>Clique sur <em>'Afficher la méthode'</em> juste au-dessus pour revoir les notions.";
+            }
+        }
+
+        function initPhysicsBackground() {
+            const canvas = document.getElementById('physics-bg');
+            const ctx = canvas.getContext('2d');
+            let width, height; let particles = [];
+            const symbols = ['F', 'P', 'R', 'T', 'm', 'g', 'K', 'Δl', '→', 'N'];
+
+            function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+            window.addEventListener('resize', resize); resize();
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width; this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 1.5; this.vy = (Math.random() - 0.5) * 1.5;
+                    this.symbol = symbols[Math.floor(Math.random() * symbols.length)];
+                    this.size = Math.random() * 25 + 15;
+                    this.opacity = Math.random() * 0.6 + 0.2;
+                }
+                update() {
+                    this.x += this.vx; this.y += this.vy;
+                    if (this.x < 0 || this.x > width) this.vx *= -1;
+                    if (this.y < 0 || this.y > height) this.vy *= -1;
+                }
+                draw() {
+                    ctx.font = `bold ${this.size}px sans-serif`;
+                    ctx.fillStyle = `rgba(56, 189, 248, ${this.opacity})`;
+                    ctx.fillText(this.symbol, this.x, this.y);
+                }
+            }
+            for (let i = 0; i < 35; i++) particles.push(new Particle());
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+    </script>
+</body>
+</html>
