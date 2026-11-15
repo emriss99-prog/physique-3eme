@@ -100,17 +100,17 @@
             <p>Une force est représentée par un vecteur qui a <strong>4 caractéristiques</strong> :</p>
             
             <div class="schema-container">
-                <img src="img/caracteristiques.jpg" alt="Les 4 caractéristiques" class="schema-img">
+                <img src="caracteristiques.jpg" alt="Les 4 caractéristiques" class="schema-img">
             </div>
 
             <div class="accordion-btn" onclick="toggleAccordion(this, 'acc2')"><span>Forces de contact vs à distance</span> <span class="icon">+</span></div>
             <div class="panel" id="acc2">
                 <div style="display: flex; flex-direction: column; gap: 15px;">
                     <div class="schema-container">
-                        <img src="img/pilon.jpg" alt="Force de contact (Pilon)" class="schema-img">
+                        <img src="pilon.jpg" alt="Force de contact (Pilon)" class="schema-img">
                     </div>
                     <div class="schema-container">
-                        <img src="img/aimant.jpg" alt="Force à distance (Aimant)" class="schema-img">
+                        <img src="aimant.jpg" alt="Force à distance (Aimant)" class="schema-img">
                     </div>
                 </div>
             </div>
@@ -137,7 +137,7 @@
             <p>Un solide soumis à <strong>deux forces</strong> est en équilibre si ces forces ont la <strong>même direction</strong>, la <strong>même norme</strong> et des <strong>sens contraires</strong>.</p>
             
             <div class="schema-container">
-                <img src="img/equilibre.jpg" alt="Équilibre F1 et F2" class="schema-img">
+                <img src="equilibre.jpg" alt="Équilibre F1 et F2" class="schema-img">
             </div>
 
             <p><strong>Les 3 écritures de la condition d'équilibre :</strong></p>
@@ -162,7 +162,7 @@
                 <strong>Résumé :</strong> À l'équilibre, <span class="vec">F</span><sub>1</sub> + <span class="vec">F</span><sub>2</sub> = <span class="vec">0</span>. Les forces s'annulent.
             </div>
         </div>
-      <!-- EXERCICE D'APPLICATION : CONSTRUCTION -->
+        <!-- EXERCICE D'APPLICATION : CONSTRUCTION -->
 <div class="card" style="border-left: 4px solid #f472b6;">
     <h2>Exercice : Construction d'une force</h2>
     <p>On souhaite représenter une force de <strong>12 N</strong> avec l'échelle <strong>1 cm pour 2 N</strong>.</p>
@@ -211,7 +211,7 @@
 
     <p class="cursive" style="color: var(--text-color);">D. Construction (avec ton image) :</p>
     <div class="schema-container">
-        <img src="img/force12N.jpg" alt="Correction construction force 12N" class="schema-img">
+        <img src="force12N.jpg" alt="Correction construction force 12N" class="schema-img">
     </div>
 </div>
 
@@ -222,7 +222,7 @@
     <div id="def3" class="definition-box">Proportionnelle signifie que si l'allongement double, la force double aussi.</div>
     
     <div class="schema-container">
-        <img src="img/ressort.jpg" alt="Allongement d'un ressort" class="schema-img">
+        <img src="ressort.jpg" alt="Allongement d'un ressort" class="schema-img">
     </div>
 
     <p><strong>La loi de Hooke : T = K × Δl</strong></p>
@@ -249,7 +249,7 @@
     </div>
 </div>
 
-<!-- ACTIVITÉ : PARCOURS GUIDÉ (Photo + QCM) -->
+<!-- ACTIVITÉ : PARCOURS GUIDÉ -->
 <div class="card" style="border-left: 4px solid #f472b6;">
     <h2>Exercice Guidé : Représentation de 2 forces</h2>
     <p>Un oscillateur soulève une charge de <strong>12 N</strong>.<br>Échelle proposée : 1 cm &rarr; 2 N.</p>
@@ -262,7 +262,6 @@
         <div class="feedback"></div>
     </div>
 
-    <!-- Étape 2 cachée au début -->
     <div id="step2-container" style="display: none; margin-top: 20px;">
         <div class="quiz-box" id="quiz-force-2">
             <p><strong>2) Quelle est la longueur du vecteur pour représenter 12 N ?</strong></p>
@@ -273,7 +272,6 @@
         </div>
     </div>
 
-    <!-- Étape 3 (Pratique avec photo) cachée au début -->
     <div id="step3-container" style="display: none; margin-top: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
         <p><strong>3) À toi de jouer !</strong></p>
         <p>Prends ton stylo et une feuille. Représente les deux forces (P et T) en respectant l'échelle. <br>Une fois terminé, clique sur le bouton pour comparer avec la correction.</p>
@@ -281,7 +279,7 @@
         
         <div id="correction-finale" style="display: none; margin-top: 15px;">
             <p style="color: var(--success-color); font-weight: bold;">🎉 Bravo pour ton effort ! Voici la correction officielle :</p>
-            <div class="grid-paper" style="height: 200px;">
+            <div class="grid-paper" style="height: 200px; background-color: white; border: 2px solid #333; background-image: linear-gradient(#cbd5e1 1px, transparent 1px), linear-gradient(90deg, #cbd5e1 1px, transparent 1px); background-size: 20px 20px;">
                 <svg viewBox="0 0 200 150" width="100%" height="100%">
                     <rect x="80" y="10" width="40" height="10" fill="#64748b"/>
                     <line x1="100" y1="20" x2="100" y2="70" stroke="#333" stroke-width="2"/>
@@ -299,7 +297,7 @@
         </div>
     </div>
 </div>
-              <!-- FLASHCARDS -->
+        <!-- FLASHCARDS -->
         <div class="card" style="border-left: 4px solid #c084fc;">
             <h2>Révision Finale (Flashcards)</h2>
             <div class="flashcard-container" onclick="this.classList.toggle('flipped')">
@@ -418,7 +416,6 @@
             }
         }
 
-        // QCM par étapes pour l'exercice guidé
         function checkAnswerStep(btn, isCorrect, nextStepId) {
             let parent = btn.closest('.quiz-box');
             let buttons = parent.querySelectorAll('.qcm-option');
