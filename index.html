@@ -162,7 +162,7 @@
                 <strong>Résumé :</strong> À l'équilibre, <span class="vec">F</span><sub>1</sub> + <span class="vec">F</span><sub>2</sub> = <span class="vec">0</span>. Les forces s'annulent.
             </div>
         </div>
-        <!-- EXERCICE D'APPLICATION : CONSTRUCTION -->
+       <!-- EXERCICE D'APPLICATION : CONSTRUCTION -->
 <div class="card" style="border-left: 4px solid #f472b6;">
     <h2>Exercice : Construction d'une force</h2>
     <p>On souhaite représenter une force de <strong>12 N</strong> avec l'échelle <strong>1 cm pour 2 N</strong>.</p>
@@ -249,55 +249,86 @@
     </div>
 </div>
 
-<!-- ACTIVITÉ : PARCOURS GUIDÉ -->
+<!-- ========================================== -->
+<!-- EXERCICE D'APPLICATION 1 : PLAN HORIZONTAL -->
+<!-- ========================================== -->
 <div class="card" style="border-left: 4px solid #f472b6;">
-    <h2>Exercice Guidé : Représentation de 2 forces</h2>
-    <p>Un oscillateur soulève une charge de <strong>12 N</strong>.<br>Échelle proposée : 1 cm &rarr; 2 N.</p>
+    <h2>Exercice Guidé 1 : Solide sur un plan</h2>
+    <p>Un solide homogène (S), de masse m = 500 g, est posé au repos sur un plan horizontal. Donnée : g = 10 N/kg.</p>
     
-    <div class="quiz-box" id="quiz-force-1">
-        <p><strong>1) Quelles sont les forces appliquées à la charge ?</strong></p>
-        <button class="qcm-option" onclick="checkAnswerStep(this, false, 'step2-container')">Le poids et la réaction du plan.</button>
-        <button class="qcm-option" onclick="checkAnswerStep(this, true, 'step2-container')">Le poids <span class="vec">P</span> et la tension du fil <span class="vec">T</span>.</button>
-        <button class="qcm-option" onclick="checkAnswerStep(this, false, 'step2-container')">La force de frottement et la tension.</button>
-        <div class="feedback"></div>
-    </div>
+    <h3 style="color: var(--accent-color); font-size: 16px;">1. Bilan des forces</h3>
+    <p>Le solide est soumis à :</p>
+    <ul>
+        <li>son <input type="text" id="ex1_q1_1" class="method-input" style="width: 100px;" placeholder="...">, exercé par <input type="text" id="ex1_q1_2" class="method-input" style="width: 100px;" placeholder="..."> ;</li>
+        <li>la <input type="text" id="ex1_q1_3" class="method-input" style="width: 120px;" placeholder="...">, exercée par <input type="text" id="ex1_q1_4" class="method-input" style="width: 120px;" placeholder="...">.</li>
+    </ul>
 
-    <div id="step2-container" style="display: none; margin-top: 20px;">
-        <div class="quiz-box" id="quiz-force-2">
-            <p><strong>2) Quelle est la longueur du vecteur pour représenter 12 N ?</strong></p>
-            <button class="qcm-option" onclick="checkAnswerStep(this, false, 'step3-container')">2 cm</button>
-            <button class="qcm-option" onclick="checkAnswerStep(this, true, 'step3-container')">6 cm</button>
-            <button class="qcm-option" onclick="checkAnswerStep(this, false, 'step3-container')">12 cm</button>
-            <div class="feedback"></div>
-        </div>
-    </div>
+    <h3 style="color: var(--accent-color); font-size: 16px;">2. Contact ou distance ?</h3>
+    <p>a. Le poids est une force 
+        <select id="ex1_q2_1" class="method-input" style="width: auto; display: inline-block;">
+            <option value="">...</option>
+            <option value="contact">de contact</option>
+            <option value="distance">à distance</option>
+        </select>
+    </p>
+    <p>b. La réaction du plan est une force 
+        <select id="ex1_q2_2" class="method-input" style="width: auto; display: inline-block;">
+            <option value="">...</option>
+            <option value="contact">de contact</option>
+            <option value="distance">à distance</option>
+        </select>
+    </p>
 
-    <div id="step3-container" style="display: none; margin-top: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
-        <p><strong>3) À toi de jouer !</strong></p>
-        <p>Prends ton stylo et une feuille. Représente les deux forces (P et T) en respectant l'échelle. <br>Une fois terminé, clique sur le bouton pour comparer avec la correction.</p>
-        <button class="btn-method" onclick="showCorrection()">J'ai terminé mon schéma, voir la correction</button>
-        
-        <div id="correction-finale" style="display: none; margin-top: 15px;">
-            <p style="color: var(--success-color); font-weight: bold;">🎉 Bravo pour ton effort ! Voici la correction officielle :</p>
-            <div class="grid-paper" style="height: 200px; background-color: white; border: 2px solid #333; background-image: linear-gradient(#cbd5e1 1px, transparent 1px), linear-gradient(90deg, #cbd5e1 1px, transparent 1px); background-size: 20px 20px;">
-                <svg viewBox="0 0 200 150" width="100%" height="100%">
-                    <rect x="80" y="10" width="40" height="10" fill="#64748b"/>
-                    <line x1="100" y1="20" x2="100" y2="70" stroke="#333" stroke-width="2"/>
-                    <rect x="85" y="70" width="30" height="30" fill="#cbd5e1" stroke="#333" stroke-width="2"/>
-                    <line x1="100" y1="85" x2="100" y2="145" stroke="#ef4444" stroke-width="3" marker-end="url(#arrRedEx)"/>
-                    <text x="110" y="140" fill="#ef4444" font-weight="bold">P</text>
-                    <line x1="100" y1="85" x2="100" y2="25" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrBlueEx)"/>
-                    <text x="110" y="35" fill="#3b82f6" font-weight="bold">T</text>
-                    <defs>
-                        <marker id="arrRedEx" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#ef4444"/></marker>
-                        <marker id="arrBlueEx" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3b82f6"/></marker>
-                    </defs>
-                </svg>
-            </div>
-        </div>
-    </div>
+    <h3 style="color: var(--accent-color); font-size: 16px;">4. Équilibre</h3>
+    <p>Pour qu’un solide soumis à deux forces soit en équilibre, ces forces doivent avoir :</p>
+    <ul>
+        <li>la même droite d'<input type="text" id="ex1_q4_1" class="method-input" style="width: 120px;" placeholder="..."> ;</li>
+        <li>des sens <input type="text" id="ex1_q4_2" class="method-input" style="width: 120px;" placeholder="..."> ;</li>
+        <li>la même <input type="text" id="ex1_q4_3" class="method-input" style="width: 120px;" placeholder="...">.</li>
+    </ul>
+    <p>Relation vectorielle : <input type="text" id="ex1_q4_4" class="method-input" placeholder="Ex: P + R = 0"></p>
+
+    <h3 style="color: var(--accent-color); font-size: 16px;">5. Calculs</h3>
+    <p>m = 500 g = <input type="number" id="ex1_q5_1" class="method-input" style="width: 80px;" placeholder="..."> kg</p>
+    <p>P = <input type="number" id="ex1_q5_2" class="method-input" style="width: 60px;" placeholder="..."> × <input type="number" id="ex1_q5_3" class="method-input" style="width: 60px;" placeholder="..."> = <input type="number" id="ex1_q5_4" class="method-input" style="width: 80px;" placeholder="..."> N</p>
+    <p>R = <input type="number" id="ex1_q5_5" class="method-input" style="width: 80px;" placeholder="..."> N</p>
+
+    <button class="btn-validate" onclick="checkEx1()">J'ai rédigé sur mon cahier, voir la correction</button>
+    <div id="ex1-feedback" class="feedback-exercise" style="text-align: left; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 8px; margin-top: 15px;"></div>
 </div>
-        <!-- FLASHCARDS -->
+
+<!-- ========================================== -->
+<!-- EXERCICE D'APPLICATION 2 : RESSORT -->
+<!-- ========================================== -->
+<div class="card" style="border-left: 4px solid #f472b6;">
+    <h2>Exercice Guidé 2 : Solide suspendu</h2>
+    <p>Un solide (S), de masse m = 200 g, est suspendu à un ressort. ℓ₀ = 10 cm. Allongement Δℓ = 4 cm. Données : g = 10 N/kg. Échelle : 1 cm pour 1 N.</p>
+    
+    <h3 style="color: var(--accent-color); font-size: 16px;">1. Bilan des forces</h3>
+    <ul>
+        <li>La Terre exerce sur le solide son <input type="text" id="ex2_q1_1" class="method-input" style="width: 120px;" placeholder="...">, noté P⃗.</li>
+        <li>Le ressort exerce sur le solide une force de <input type="text" id="ex2_q1_2" class="method-input" style="width: 120px;" placeholder="...">, notée T⃗.</li>
+    </ul>
+
+    <h3 style="color: var(--accent-color); font-size: 16px;">4. Équilibre</h3>
+    <p>Relation vectorielle : <input type="text" id="ex2_q4_1" class="method-input" placeholder="Ex: P + T = 0"></p>
+
+    <h3 style="color: var(--accent-color); font-size: 16px;">5. Calculs</h3>
+    <p>m = 200 g = <input type="number" id="ex2_q5_1" class="method-input" style="width: 80px;" placeholder="..."> kg</p>
+    <p>P = <input type="number" id="ex2_q5_2" class="method-input" style="width: 60px;" placeholder="..."> × <input type="number" id="ex2_q5_3" class="method-input" style="width: 60px;" placeholder="..."> = <input type="number" id="ex2_q5_4" class="method-input" style="width: 80px;" placeholder="..."> N</p>
+    <p>T = <input type="number" id="ex2_q5_5" class="method-input" style="width: 80px;" placeholder="..."> N</p>
+
+    <h3 style="color: var(--accent-color); font-size: 16px;">6. Constante de raideur</h3>
+    <p>Δℓ = 4 cm = <input type="number" id="ex2_q6_1" class="method-input" style="width: 80px;" placeholder="..."> m</p>
+    <p>k = <input type="number" id="ex2_q6_2" class="method-input" style="width: 60px;" placeholder="..."> ÷ <input type="number" id="ex2_q6_3" class="method-input" style="width: 80px;" placeholder="..."> = <input type="number" id="ex2_q6_4" class="method-input" style="width: 80px;" placeholder="..."> N/m</p>
+
+    <h3 style="color: var(--accent-color); font-size: 16px;">7. Longueur finale</h3>
+    <p>ℓ = <input type="number" id="ex2_q7_1" class="method-input" style="width: 60px;" placeholder="..."> + <input type="number" id="ex2_q7_2" class="method-input" style="width: 60px;" placeholder="..."> = <input type="number" id="ex2_q7_3" class="method-input" style="width: 80px;" placeholder="..."> cm</p>
+
+    <button class="btn-validate" onclick="checkEx2()">J'ai rédigé sur mon cahier, voir la correction</button>
+    <div id="ex2-feedback" class="feedback-exercise" style="text-align: left; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 8px; margin-top: 15px;"></div>
+</div>
+              <!-- FLASHCARDS -->
         <div class="card" style="border-left: 4px solid #c084fc;">
             <h2>Révision Finale (Flashcards)</h2>
             <div class="flashcard-container" onclick="this.classList.toggle('flipped')">
@@ -416,57 +447,40 @@
             }
         }
 
-        function checkAnswerStep(btn, isCorrect, nextStepId) {
-            let parent = btn.closest('.quiz-box');
-            let buttons = parent.querySelectorAll('.qcm-option');
-            buttons.forEach(b => b.style.pointerEvents = 'none');
-            let feedback = parent.querySelector('.feedback');
-            feedback.style.display = 'block';
-
-            if (isCorrect) {
-                btn.classList.add('correct');
-                feedback.style.color = 'var(--success-color)';
-                feedback.innerText = "Exact ! Tu peux passer à la suite. 🎉";
-                setTimeout(() => {
-                    document.getElementById(nextStepId).style.display = 'block';
-                }, 800);
-            } else {
-                btn.classList.add('wrong');
-                feedback.style.color = 'var(--error-color)';
-                feedback.innerText = "Oups ! Ce n'est pas ça. 💡";
-                buttons.forEach(b => { if (b.getAttribute('onclick').includes('true')) b.classList.add('correct'); });
-                setTimeout(() => {
-                    document.getElementById(nextStepId).style.display = 'block';
-                }, 1500);
-            }
+        // Vérification Exercice 1 (Correction complète)
+        function checkEx1() {
+            const fb = document.getElementById('ex1-feedback');
+            fb.style.display = 'block';
+            fb.style.color = 'var(--text-color)';
+            fb.innerHTML = `
+                <p style="color: var(--success-color); font-weight: bold; font-size: 16px;">🎉 Bravo pour ton travail sur le cahier !</p>
+                <p><strong>Voici la correction complète :</strong></p>
+                <ul style="line-height: 1.6;">
+                    <li><strong>1. Bilan :</strong> Le poids P (exercé par la Terre) et la réaction R (exercée par le plan).</li>
+                    <li><strong>2. Classement :</strong> Poids = à distance. Réaction = de contact.</li>
+                    <li><strong>4. Équilibre :</strong> Même droite d'action, sens opposés, même norme. <br>Relation : P⃗ + R⃗ = 0⃗</li>
+                    <li><strong>5. Calculs :</strong> m = 500g = 0,5 kg.<br>P = m × g = 0,5 × 10 = <strong>5 N</strong>.<br>À l'équilibre, R = P = <strong>5 N</strong>.</li>
+                    <li><strong>Tableau :</strong> <br>P⃗ : Point G, Verticale, Vers le bas, 5 N.<br>R⃗ : Point de contact, Verticale, Vers le haut, 5 N.</li>
+                </ul>
+            `;
         }
 
-        function showCorrection() {
-            document.getElementById('correction-finale').style.display = 'block';
-            event.target.style.display = 'none';
-        }
-
-        function checkMethod() {
-            const s1 = document.getElementById('step1').value.toLowerCase();
-            const s2 = document.getElementById('step2').value.toLowerCase();
-            const s3 = document.getElementById('step3').value.toLowerCase();
-            const s4 = document.getElementById('step4').value.toLowerCase();
-            const feedback = document.getElementById('method-feedback');
-            
-            const kw1 = s1.includes('échelle') || s1.includes('echelle');
-            const kw2 = s2.includes('règle') || s2.includes('regle') || s2.includes('3');
-            const kw3 = s3.includes('calcul') || s3.includes('détermine') || s3.includes('determine') || s3.includes('valeur');
-            const kw4 = s4.includes('représent') || s4.includes('represent') || s4.includes('réalise') || s4.includes('realise') || s4.includes('dessin');
-
-            feedback.style.display = 'block';
-
-            if (kw1 && kw2 && kw3 && kw4) {
-                feedback.style.color = 'var(--success-color)';
-                feedback.innerHTML = "🎉 <strong>Bravo !</strong> Tu as parfaitement retenu la méthode de construction !";
-            } else {
-                feedback.style.color = 'var(--error-color)';
-                feedback.innerHTML = "💡 <strong>Oups !</strong> Certaines étapes sont incomplètes.<br>Clique sur <em>'Afficher la méthode'</em> juste au-dessus pour revoir les notions.";
-            }
+        // Vérification Exercice 2 (Correction complète)
+        function checkEx2() {
+            const fb = document.getElementById('ex2-feedback');
+            fb.style.display = 'block';
+            fb.style.color = 'var(--text-color)';
+            fb.innerHTML = `
+                <p style="color: var(--success-color); font-weight: bold; font-size: 16px;">🎉 Excellent travail sur ton cahier !</p>
+                <p><strong>Voici la correction complète :</strong></p>
+                <ul style="line-height: 1.6;">
+                    <li><strong>1. Bilan :</strong> Le poids P (Terre) et la tension T (ressort).</li>
+                    <li><strong>4. Équilibre :</strong> P⃗ + T⃗ = 0⃗</li>
+                    <li><strong>5. Calculs :</strong> m = 200g = 0,2 kg.<br>P = m × g = 0,2 × 10 = <strong>2 N</strong>.<br>À l'équilibre, T = P = <strong>2 N</strong>.<br>Flèche : 2 cm (à l'échelle 1 cm = 1 N).</li>
+                    <li><strong>6. Raideur :</strong> Δℓ = 4 cm = 0,04 m.<br>k = T / Δℓ = 2 / 0,04 = <strong>50 N/m</strong>.</li>
+                    <li><strong>7. Longueur :</strong> ℓ = ℓ₀ + Δℓ = 10 + 4 = <strong>14 cm</strong>.</li>
+                </ul>
+            `;
         }
 
         function initPhysicsBackground() {
@@ -507,4 +521,4 @@
         }
     </script>
 </body>
-</html>
+</html>  
